@@ -4,6 +4,8 @@ defmodule IngressServer.Router do
 
   require Logger
 
+  alias IngressServer.RMQPublisher
+
   plug(Plug.Logger, log: :debug)
   plug(:match)
   plug(:dispatch)
@@ -14,8 +16,13 @@ defmodule IngressServer.Router do
 
   post "/" do
     {:ok, body, conn } = read_body(conn)
-    {:ok, data} = Jason.decode(body)
-    send_resp(conn, 201, Jason.encode!(data))
+    data = body
+           |> Jason.decode!()
+           |> Jason.encode!()
+
+    RMQPublisher.publish_lrs_ingress_item(data)
+
+    send_resp(conn, 201, data)
   end
 
   match _ do

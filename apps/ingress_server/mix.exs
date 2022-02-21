@@ -29,7 +29,8 @@ defmodule IngressServer.MixProject do
       {:cowboy, "~> 1.0"},
       {:jason, "~> 1.3"},
       {:plug, "~> 1.13"},
-      {:plug_cowboy, "~> 1.0"}
+      {:plug_cowboy, "~> 1.0"},
+      {:gen_rmq, github: "meltwater/gen_rmq", commit: "ae6958c"}
     ]
   end
 end

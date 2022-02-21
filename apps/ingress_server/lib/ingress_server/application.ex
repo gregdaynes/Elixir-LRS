@@ -8,7 +8,11 @@ defmodule IngressServer.Application do
   @impl true
   def start(_type, _args) do
     children = [
-      Plug.Adapters.Cowboy.child_spec(scheme: :http, plug: IngressServer.Router, options: [port: 8085])
+      Plug.Adapters.Cowboy.child_spec(scheme: :http, plug: IngressServer.Router, options: [port: 8085]),
+      %{
+        id: IngressServer.RMQPublisher,
+        start: {IngressServer.RMQPublisher, :start_link, []}
+      },
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
