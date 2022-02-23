@@ -12,7 +12,8 @@ defmodule ETLPipeline.Application do
         id: ETLPipeline.RMQPublisher,
         start: {ETLPipeline.RMQPublisher, :start_link, []}
       },
-      ETLPipeline.ETLProcessor
+      ETLPipeline.ETLProcessor,
+      ETLPipeline.Repo
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

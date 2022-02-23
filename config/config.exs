@@ -15,4 +15,13 @@ import Config
 #       level: :info,
 #       format: "$date $time [$level] $metadata$message\n",
 #       metadata: [:user_id]
-#
+
+config :etl_pipeline, ecto_repos: [ETLPipeline.Repo]
+config :etl_pipeline, ETLPipeline.Repo,
+  database: "lrs",
+  username: "postgres",
+  password: "postgres",
+  hostname: "localhost",
+  log: false
+
+config :logger, :console, format: "[$level] $message\n"

@@ -4,6 +4,7 @@ defmodule ETLPipeline.ETLProcessor do
   require Logger
 
   alias Broadway.Message
+  alias ETLPipeline.{Statements, Repo}
 
   def start_link(_opts) do
     Broadway.start_link(__MODULE__,
@@ -27,11 +28,13 @@ defmodule ETLPipeline.ETLProcessor do
   end
 
   @impl true
-  def handle_message(_processor, %Broadway.Message{data: data} = message, _context) do
-    data
+  def handle_message(_processor, %Broadway.Message{data: message_data} = message, _context) do
+    decoded_data = message_data
     |> Jason.decode!
-    |> Kernel.inspect
-    |> Logger.info
+
+    %Statements{}
+    |> Statements.changeset(%{data: decoded_data})
+    |> Repo.insert()
 
     message
   end
